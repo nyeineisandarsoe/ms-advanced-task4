@@ -1,4 +1,4 @@
-# Astar-final-assessment
+# Astar-final-assessment-new
 This is prerequisite for Final Assessment
 
 Please follow the below steps to setup the inital environment
@@ -31,7 +31,8 @@ Use Visual Studio Code for editing with following Plugins:
 
 Tips
 
-1) All the JS code that needs to be edited is in `js` folder named `common.js`
+1) The JS code that needs to be edited is in `js` folder named `common.js` 
+2) For tasks UI you can update the `script.js`
 2) Try to complete maximum number of tasks
 
 # To login to the application use the following users
