@@ -1,10 +1,6 @@
 /* 
  Common URLs so that it's easy to update
 */
-var products_url = "http://localhost:32144/products/products/";
-
-var inventory_url = "http://localhost:32144/inventory/inventory/";
-
 var customer_login_url = 'http://localhost:32144/customers/login/'
 
 var customer_url = 'http://localhost:32144/customers/customer/'
@@ -39,7 +35,7 @@ function signIn(e)
                  if(username == "admin")
                     window.location.href = 'inventory.html';
                  else
-    			    window.location.href = 'shop.html';
+    			    window.location.href = 'index.html';
     			}, 1000);
     })
     .catch(error => { alert("Invalid Credentials!"); console.error(error);});
@@ -108,7 +104,7 @@ function getProducts_shop()
      .catch(error => console.error(error));
 }
 
-function createProductList(responseData) {
+function createTaskList(responseData) {
    
        responseData.forEach(function(product) {
 
@@ -173,7 +169,7 @@ for (i = 0; i < list.length; i++) {
 return false;
 }
 
-function addToCartService(product){
+function addTaskService(product){
 
    let products = [];
   if( sessionStorage.getItem('products')) 
