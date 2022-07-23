@@ -1,66 +1,66 @@
 //My Methods
-var myObj= {
+var myObj = {
     //Select TextArea Func
-    textSelect: function(){
+    textSelect: function () {
         document.getElementById('description').select();
     },
 
-//Hide form Method
-    hide: function() {
-    document.getElementById("form").style.display = "none";
-    document.getElementById("show").style.display = "inline-block";
+    //Hide form Method
+    hide: function () {
+        document.getElementById("form").style.display = "none";
+        document.getElementById("show").style.display = "inline-block";
 
-},
-//Show Form Method
-    show:function(){
+    },
+    //Show Form Method
+    show: function () {
 
-    document.getElementById("form").style.display = "block";
-    document.getElementById("show").style.display = "none";
-    document.getElementById('myDate').valueAsDate = new Date();
+        document.getElementById("form").style.display = "block";
+        document.getElementById("show").style.display = "none";
+        document.getElementById('myDate').valueAsDate = new Date();
     },
     //Removing task method
     removeTask: function () {
-    var id = this.getAttribute('id');
-    var myTasks = returnToDo();
-    myTasks.splice(id, 1);
-    localStorage.setItem('myData', JSON.stringify(myTasks));
-    document.getElementById('myTasks').innerHTML = '';
-    showMyTasks();
-    console.log('delete');
+        var id = this.getAttribute('id');
+        var myTasks = returnToDo();
+        myTasks.splice(id, 1);
+        localStorage.setItem('myData', JSON.stringify(myTasks));
+        document.getElementById('myTasks').innerHTML = '';
+        showMyTasks();
+        console.log('delete');
 
-}
+    }
 };
 //Checks if there is already data in LocalStorage
-function returnToDo(){
+function returnToDo() {
     var myTasks = [];
     var myTasksTemp = localStorage.getItem('myData');
-    if(myTasksTemp != null){
+    if (myTasksTemp != null) {
         myTasks = JSON.parse(myTasksTemp);
     }
     return myTasks;
 }
 //Class that creates tasks.
-function Task(){
+function Task() {
     this.name = document.getElementById('name').value;
     this.subject = document.getElementById('subject').value;
     this.date = document.getElementById('myDate').value;
     this.describe = document.getElementById('description').value;
 }
 //Insert task properties into the HTML
-function newTask(x,y,z,o){
+function newTask(x, y, z, o) {
     document.getElementById('myTasks').innerHTML +=
-        '<div class="col l3 m4 s12 animated zoomIn"> <h4>'+z+  ':</h1>'+
-        '<p>'+y+'</p>' +
-        '<p>By: '+x+'</p>' +
-        '<p>Due: ' +o +'</p>'+
-        '<div class="btn red" >Delete</div>'+
-    '</div>'
+        '<div class="col l3 m4 s12 animated zoomIn"> <h4>' + z + ':</h1>' +
+        '<p>' + y + '</p>' +
+        '<p>By: ' + x + '</p>' +
+        '<p>Due: ' + o + '</p>' +
+        '<div class="btn red" >Delete</div>' +
+        '</div>'
 }
 //Gets all the objects from the array.
-function showMyTasks(){
+function showMyTasks() {
     var myTasks = returnToDo();
     document.getElementById('myTasks').innerHTML = '';
-    for(var i=0;i<myTasks.length;i++){
+    for (var i = 0; i < myTasks.length; i++) {
         newTask(
             myTasks[i].name,
             myTasks[i].describe,
@@ -75,10 +75,36 @@ function showMyTasks(){
 
     }
 }
-function submitInfo(){
+function submitInfo() {
+
+    const customerId = sessionStorage.getItem("customerId");
+
+    if (!customerId) return;
+
     var myTasks = returnToDo();
-    myTasks.push(new Task);
-    localStorage.setItem('myData',JSON.stringify(myTasks));
+    let task = new Task;
+
+    myTasks.push(task);
+
+    task = {
+        id: task.id ?? 0,
+        description: task.describe ?? "",
+        priority: 0,
+        taskStatus: task.status ?? 0,
+        customerId: customerId
+    };
+
+    const res = await axios({
+        method: 'post',
+        url: 'http://localhost:31290/task',
+        data: task
+    });
+
+    if (!res) return;
+
+    console.log(myTasks);
+
+    localStorage.setItem('myData', JSON.stringify(myTasks));
     showMyTasks();
     myObj.hide();
 }
